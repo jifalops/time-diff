@@ -1,0 +1,31 @@
+{
+  "name": "time-diff",
+  "description": "Friendly description of a time difference with variable precision.",
+  "authors": ["Jacob Phillips (https://github.com/jifalops)"],
+  "license": "MIT",
+  "main": "time-diff.html",
+  "keywords": [
+    "moment",
+    "momentjs",
+    "time",
+    "from",
+    "to",
+    "now",
+    "duration",
+    "diff",
+    "elapsed",
+    "since"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "moment": "^2.18.1"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  }
+}
