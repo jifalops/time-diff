@@ -21,9 +21,59 @@
     <div class="vertical-section-container centered">
       <h3>Basic time-diff demo</h3>
       <demo-snippet>
-        <template>
-          <time-diff></time-diff>
-        </template>
+          <template>
+            <time-diff id="ex1"></time-diff><br/>
+            <time-diff id="ex2" relative></time-diff><br/>
+            <time-diff id="ex3" relative></time-diff><br/>
+            <time-diff id="ex4" relative min-unit="month"></time-diff><br/>
+            <time-diff id="ex5" relative max-unit="year"></time-diff><br/>
+            <time-diff id="ex6"></time-diff><br/>
+            <time-diff id="ex7"></time-diff><br/>
+            <script>
+              var now = Date.now();
+              document.getElementById('ex1').to = now + 1200;
+              document.getElementById('ex2').to = now - 10000;
+              document.getElementById('ex3').to = now + 3*7*24*60*60*1000;
+              document.getElementById('ex4').to = now - 1000;
+              document.getElementById('ex5').to = now + 13*30*24*60*60*1000;
+              document.getElementById('ex6').from = now;
+              document.getElementById('ex6').to = now - 100;
+              document.getElementById('ex7').to = now - 24*60*60*1000;
+            </script>
+          </template>
+        <!--</dom-bind>-->
+      </demo-snippet>
+      <h3>Interactive time-diff demo</h3>
+      <demo-snippet>
+        <!--<dom-bind id="bind1">-->
+          <template>
+            <input id="from" placeholder="from (ms)" value="0" /><br/>
+            <input id="to" placeholder="to (ms)" value="300000" /><br/>
+            <input id="min" placeholder="minUnit" /><br/>
+            <input id="max" placeholder="maxUnit" /><br/>
+            <label><input id="relative" type="checkbox" checked /> Relative</label><br/>
+            <p/>
+            <button onclick="update()">Update</button> &nbsp;&nbsp;
+            <time-diff id="diff"></time-diff>
+            <script>
+              var diff = document.getElementById('diff');
+              var from = document.getElementById('from');
+              var to = document.getElementById('to');
+              var min = document.getElementById('min');
+              var max = document.getElementById('max');
+              var relative = document.getElementById('relative');
+              update();
+
+              function update() {
+                diff.from = from.value || Date.now();
+                diff.to = to.value;
+                diff.minUnit = min.value;
+                diff.maxUnit = max.value;
+                diff.relative = relative.checked;
+              }
+            </script>
+          </template>
+        <!--</dom-bind>-->
       </demo-snippet>
     </div>
   </body>

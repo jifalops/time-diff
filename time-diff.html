@@ -18,8 +18,7 @@
       static get properties() {
         return {
           /**
-          * The time to calculate the difference _from_.
-          * Unix epoch time in milliseconds.
+          * The time in milliseconds to calculate the difference _from_.
           * @default Date.now()
           */
           from: {
@@ -27,8 +26,7 @@
             value: function() { return Date.now(); }
           },
           /**
-          * The time tocalculate the difference _to_.
-          * Unix epoch time in milliseconds.
+          * The time in milliseconds to calculate the difference _to_.
           */
           to: {
             type: Number,
@@ -80,7 +78,7 @@
           * Examples:
           * * 10 seconds
           * * 5 minutes ago
-          * * in 3 weeks
+          * * in 3 months
           * * less than a week ago
           * * in more than a year
           */
@@ -125,7 +123,7 @@
           return this._makeString(diff, magnitude, minUnit, relative, 'less');
         }
         // Handle units larger than allowed.
-        if (maxUnit && this._isLessThan(maxUnit, unit)) {
+        if (maxUnit && !this._isLessThan(unit, maxUnit)) {
           return this._makeString(diff, magnitude, maxUnit, relative, 'more');
         }
 
@@ -133,13 +131,14 @@
         if (unit != 'second') {
           return humanized;
         } else {
-          if (diff < 1000 && (!minUnit || minUnit == 'millisecond')) {
-            return this._makeString(diff, diff, 'millisecond', relative);
+          let abs = Math.abs(diff);
+          if (abs < 1000 && (!minUnit || minUnit == 'millisecond')) {
+            return this._makeString(diff, abs, 'millisecond', relative);
           }
-          if (diff >= 1000 && diff < 10000) {
-            return this._makeString(diff, Math.round(diff / 100) / 10, 'second', relative);
+          if (abs >= 1000 && abs < 10000) {
+            return this._makeString(diff, Math.round(abs / 100) / 10, 'second', relative);
           } else {
-            return this._makeString(diff, Math.round(diff / 1000), 'second', relative);
+            return this._makeString(diff, Math.round(abs / 1000), 'second', relative);
           }
         }
       }
@@ -150,11 +149,11 @@
       _makeString(diff, magnitude, unit, relative, lessOrMore) {
         let prefix = (relative && diff > 0) ? 'in ' : '';
         let suffix = (relative && diff < 0) ? ' ago' : '';
-        if (magnitude !== 1) unit += 's';
+        if (magnitude !== 1 && !lessOrMore) unit += 's';
         return prefix + (lessOrMore
           ? (lessOrMore + ' than a ')
           : (magnitude === 1 ? 'a' : magnitude))
-          + unit + suffix;
+          + ' ' + unit + suffix;
       }
 
       _isLessThan(u1, u2) {
